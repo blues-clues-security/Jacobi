@@ -1,0 +1,117 @@
+Remove/find strings from URIs (which can include known traffic and/or suspicious file types):
+(http.uri == "*.exe" || http.uri == "*.dll" || http.uri == "*.zip" || http.uri == "*.7z" || http.uri == "*.rar" || http.uri == "*.raw" || http.uri == "*.iso" || http.uri == "*.php" || http.uri == "*.aspx" && http.rui! ="*google*" && http.uri! ="*windowsupdate*")
+
+
+Another way to get file types (even when the file name does not use the respective extension):
+http.bodymagic == application/x-dosexec
+
+http.bodymagic == application/x-tar
+
+http.bodymagic == application/zip
+
+http.bodymagic == application/x-sh
+
+http.bodymagic == application/x-7z- compressed
+
+(http.bodymagic == application/x-dosxec || http.bodymagic == application/x-tar || http.bodymagic == application/zip || http.bodymagic == application/x-sh || http.bodymagic == application/x-7z- compressed) && (http.uri != \[google,windowsupdate, nvidia, arcgis, microsoft, esri\]
+
+
+Remove specific ports:
+port != 443 && port.dst != 25 && port.dst != 53 && port.dst != 80 && port.dst != 161 && port.dst != 500 && port.dst != 1719 && port.dst != 4500 && port.dst != 522
+
+
+Weird Traffic on wrong port:
+protocols == http && port !=80 && protocols != tls
+protocols == ssh && port != 22
+protocols == smtp && port != 25
+protocols == telnet && port != 23
+
+
+Inbound Web Traffic (Web site recon /exploit / staging indicators)
+•This should result in manageable traffic to view. The filter looks for known file extensions (add more as desired) and only looks at the mission partner's approved destination IPs.
+
+(http.uri == ".exe" || http.uri == ".dll" || http.uri == ".zip" || http.uri == ".7z" || http.uri == ".rar" || http.uri == ".raw" || http.uri == ".iso" || http.uri == ".php" || http.rui == "*.aspx") && (ip.dst == X.X. 0.0/16 || ip.dst == 10.0.0.0/8) && (ip.src != X.X.0.0/16 && ip.src != 10.0.0.0/8)) && (port == 80 || or port == 443) 
+
+
+
+Outbound Web Traffic (Exfil / beaconing indicator)
+•This still has a lot of traffic but it does get a little smaller. Add more filters as necessary. The issue here is, what would you look for outbound?
+
+•Essentially the packet analysis filters should alert on known IOCs before you can find anything here. Still, with enough filters, a baseline could be made.
+
+((http.uri == ".exe" || http.uri == ".dll" || http.uri == ".zip" || http.uri == ".7z" || http.uri == ".rar" || http.uri == ".raw" || http.uri == ".iso" || http.uri == ".php" ||http.uri == ".aspx") && (http.uri !="Symantec" && http.uri != ".mil" && http.uri != "*adobe" && http.uri != "google" && http.uri != "windowsupdate")) && ((ip.dst != X.X.0.0/16 && ip.dst != 10.0.0.0/8) && (ip.src == X.X.0.0/16 || ip.src == 10.0.0.0/8)) && (port == 80 || port == 443)
+
+
+DNS, SMTP, SNMP, OSPF, EIGRP, BGP, and TCP/IP
+
+
+.EXE Executable Files
+
+Being the most often associated files with malware, the executable files are notorious for being spread as malicious e-mail attachments. However, since this method has become more and more outdated, since most e-mail providers block these attachments, the executable files are often spread as fake setups, updates or other types of seemingly legitimate programs with the malicious code built-in. They are also archived to further avoid antivirus detection. However, the executable files are crucial when it comes to configuring what activities the malware will do. This is because they have numerous functions that perform the actual malicious activities after the infection has been completed. This is why, they are associated with the primary payload of different malware more often than being used as an actual infection file. But nonetheless, do not count that an .exe may not be malicious, just because of that.
+
+.DOC, .DOCX, .DOCM and Other Microsoft Office Files
+
+This particular type of files have lately become a very effective method to infect victims. The primary reason for that is the usage of malicious macros that are embedded within the documents themselves. This makes slipping past any antivirus software and e-mail attachment protection software like a walk in the park, if the right obfuscated code is used. However, the tricky part of infecting victims via these methods is to get them to click on the “Enable Content” button and the cyber-crooks, like the ones behind the ZeuS Trojan, usually use instructions within the document, like the image below:
+
+
+
+.HTA, .HTML and .HTM Application Files
+
+These particular types of files have lately become notorious to be associated with multiple ransomware variants. The most famous of them is called Cerber Ransomware and this virus has been classified as the most effective malware against the latest Windows 10 OS, primarily because of the exploit kit associated with the infection method via those files. The files themselves are HTML web applications that usually lead to a foreign host, from which the payload of the malware is downloaded onto the computer of the victim.
+
+.JS and .JAR Files
+
+These type of malicious files are notorious for containing malicious JavaScript code which causes the actual infection. Usually JavaScript infections can also be caused by automatically downloading those files without knowing as a result of having clicked on a malicious URL. The .JS files are used for quite some time now, but gained popularity recently in associated with ransomware viruses, like Locky Ransomware, which so far remains as the crypto virus that has inflicted the most damage on computer systems for all times.
+
+.VBS and .VB Script Files
+
+The Windows Visual Basic script files are particularly dangerous because they have not only been associated with one or two viruses, but most of the big malware names in the past few years. Starting with both Cerber and Locky ransomware using .vbs files in their e-mail spam campaign, the .vbs files also saw some action in relation to notorious Trojan infections. The primary choice of these particular files to infect with is the speed of infection and the skills of the hacker to create code in Visual Basic environment. VBS is also a type of file that can be easily obfuscated and can pass as a legitimate e-mail message if it is in an archive.
+
+.PDF Adobe Reader Files
+
+The cyber-criminals have the tendency to avoid associating .PDF files with scripts and codes, primarily because they crash very often. However, how there seems to be a method which has become very notorious and widespread. It includes sending .PDF files as spam message attachments and these .PDF files conceal in them the malicious documents that actually contain the malicious macros. This “document inception” strategy so far has remained effective against inexperienced victims and is the main factor responsible for spreading a threat, known as Jaff Ransomware.
+
+
+
+What actually happens is that the victim opens the malicious .PDF file and it has the Microsoft Word document embedded within it. However, like the pictures above shows, the documents prompts the victim to extract the malicious .docm file, which in turn causes the infection. Very devious tactic, especially dangerous for the fast clickers.
+
+.SFX Archive Files
+
+When we discuss malicious files and malware infection, it important to mention the .SFX Self-Extracting archive files that were also used by major malware families to infect computers. The way they work is very similar to setup programs of Windows, primarily because these file types in particular archive the malicious payload of the virus and when they are executed, they can be manipulated to extract the payload automatically and quietly in the background. The more sophisticated .SFX files are even programmed by their code or the payload files they have extracted to be self-deleted after the operation is complete.
+
+.BAT Batch Files
+
+Even though these command-containing files are not met so often, they are one of the most widespread ones ever to be used, primarily because of the Windows Command Prompt and it’s impact on the computer. If properly manipulated, the batch files may insert administrative commands that can do a variety of malicious activities, varying from deleting files on your computer to connecting to third-party hosts and downloading malware directly on your computer.
+
+
+?
+What Other Malicious Files You May Encounter
+Despite the fact that these files are not so often encountered, they can still be manipulated into infecting your computer and still infect computers presently. These are the other potentially malicious objects, you should scan before opening:
+
+Programs:
+
+.MSI Files – installer types of files which are used to situate different programs on the computer. They are often used as Setups for different programs, and can also slither the malware also in the form of a setup of a program you are trying to install.
+
+.MSP Files – files that are also the installer type, however they are more oriented on patching currently installed software, meaning that the malware here may pose as a fake patch uploaded online.
+
+.COM Files – similar to the .BAT files, these type of files are also used to insert commands. They were very popular back when Windows XP and older systems were widely used to spread old-school worms, viruses and other malicious software. However, they may still be used for malicious activity and infection.
+
+.GADGET Files – these particular malicious files are used primarily with the Windows Desktop Gadget. So if you are using a Windows version that has those floating Gadgets on your desktop, you should look out for those files. When Windows Vista firstly introduced gadgets, many exploits led to infection of unpatched systems with Trojans and other viruses.
+
+Script Files:
+
+.CMD Files – also a Windows Command Prompt file that can insert malicious commands on your computer.
+
+.VBE Files – Encrypted VBS files.
+
+.JSE Files – Encrypted JavaScript files.
+
+.PS1, .PS1XML, .PS2, .PS2XML, .PSC1, .PSC2 – The Windows PowerShell script files that when programmed can automatically run direct PowerShell commands on a Windows system, as long as they are ran with Administrative privileges. Particularly dangerous.
+
+Malicious Shortcut Files:
+
+.LNK Shortcuts – A shortcut used usually to link a program contained locally on the computer. However, with the right software and functions it can perform multiple malicious activities on the infected computer, like delete important files.
+
+.INF Files – These text files are usually not of a dangerous character, but they may also be utilized to launch an app. And if this app is malicious, this makes them dangerous as well.
+
+.SCF Files – These type of files are used to interfere with Windows Explorer and can be modified to perform actions on Explorer that can ultimately lead to infection. But the actions can also be post-infection as well.

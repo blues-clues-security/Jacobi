@@ -1,0 +1,55 @@
+Port/Protocol Mismatch (port == 80 && protocols != http)
+Non-standard TLS/SSL (protocols == tls && tls.version != TLSv1 && tls.version != TLSv1.2 && tls.version != TLSv2)
+Amounts of data transferred (URI [127.0.0.1:8005/unique.txt?counts=1&exp=protocols&expression=protocols+%3D+%3D+$prot&startTime=$starttimevalue])
+
+
+Start Time Calculations (Maybe)
+---------------------------------
+startTime = (currentDT-secs)
+
+startTime = $value(2018/05/11 05:11:45) = secs
+2018 / 05 / 11 05 11 45
+
+$date = $3
+echo $date | cut -f1 -d"/" > $year
+echo $date | cut -f2 -d"/" > $month
+echo $date | cut -f3 -d"/" > $day
+echo $date | cut -f2 -d" " > $hour
+echo $date | cut -f2 -d":" > $min
+echo $date | cut -f3 -d":" > $sec
+
+$year * 31536000 =
+# $month * 103600 = 
+$day * 86400 = 
+$hour * 3600 =
+$min * 60 = 
+$sec
+
+$currentdate = date +%Y/%m/%d" "%T
+
+date -u -d @"$diff" +'%-Mm %-Ss
+
+$currentdate - $date = $starttimevalue
+----------------------------------------------------
+2018/01/01 00:00:00 = 1514793600
+
+
+$prot = $5
+$5 = dns
+
+moloch_view.sh
+
+[*] Moloch viewer
+Please choose a query
+[1] Amount of data transferred via protocol X
+
+[*] Moloch Dashboard
+Choose multiple numbers for a dashboard
+1
+
+[*] Insert start date time in format [XXXX/XX/XX XX:XX:XX]
+
+
+[*]Redirecting to Google-Chrome
+google-chrome http://127.0.0.1:8005/$
+
