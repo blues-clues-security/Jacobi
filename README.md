@@ -10,3 +10,6 @@ Jacobi was written for Python 2.7. It doesn't require any other dependencies oth
 Simply using "python jacobi.py" to start the script, and the menu options are fairly self explanatory. I've included a Help menu to try and explain a little more of the Global Variables and what exactly they do. Each individual query should have enough information in their menu to explain what is happening. If you really need to know more, you'll see the query in the URL it generates and can refer to the function call to find the code. Lastly, you'll notice a text file caled "jacobi_queries.txt" in the running folder. This is keeping track of: the query ran, the date/time, and the command ran to open the browser with the associated URL.  
 ### Noteworthy Bugs
 The only issue I wasn't able to overcome, was the curses menu erroring when the terminal window is too small. I was able to add an Exception handler so the window won't crash, however you'll be prompted to resize the window before needing to restart the script. Let me know if you find anything else!  
+### Future Development  
+- Convert Snort rules from [CVE-Sweeper](https://github.com/Bl00ve/CVE-Sweeper) to Moloch queries
+- Utilize Bro logs in Moloch queries
